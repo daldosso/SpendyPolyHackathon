@@ -1,10 +1,30 @@
 <link rel="import" href="../bower_components/chart-elements/chart-elements.html">
 <polymer-element name="spendy-chart">
     <template>
-        <chart-pie values="[20, 30, 100]"></chart-pie>
-        SPESE
+
+        <core-ajax auto id="addExpense" url="http://www.adaldosso.com/quantospendi/srv/stats-demo.php" handleAs="json" on-core-response="{{statsCallback}}"></core-ajax>
+
+        <chart-pie id="chart"></chart-pie>
+        <div id="legenda"></div>
     </template>
     <script>
-        Polymer('spendy-chart');
+        Polymer({
+            statsCallback: function(d) {
+                var baseColors = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"];
+                var data = d.detail.response.rows;
+                var values = [];
+                var colors = [];
+                var legenda = "";
+                for (var i=0; i<data.length; i++) {
+                    values.push(parseFloat(data[i].per))
+                    var color = baseColors[Math.floor(Math.random() * baseColors.length)];
+                    colors.push(color)
+                    legenda += '<div style="display: inline-flex"><div style="width:20px;height:20px;margin-right:10px;background-color:' + color + '"></div>' + data[i].cat + '</div><br/>';
+                }
+                this.$.legenda.innerHTML = legenda;
+                this.$.chart.values = values;
+                this.$.chart.colors = colors;
+            }
+        });
     </script>
 </polymer-element>
