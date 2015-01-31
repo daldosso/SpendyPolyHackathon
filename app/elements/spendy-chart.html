@@ -10,14 +10,16 @@
     <script>
         Polymer({
             statsCallback: function(d) {
-                var baseColors = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"];
+                var baseColors = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#6699FF", "#666633", "#FFFF00"];
                 var data = d.detail.response.rows;
                 var values = [];
                 var colors = [];
                 var legenda = "";
                 for (var i=0; i<data.length; i++) {
-                    values.push(parseFloat(data[i].per))
-                    var color = baseColors[Math.floor(Math.random() * baseColors.length)];
+                    values.push(parseInt(data[i].per))
+                    var index = Math.floor(Math.random() * baseColors.length);
+                    var color = baseColors[index];
+                    baseColors.splice(index, 1);
                     colors.push(color)
                     legenda += '<div style="display: inline-flex"><div style="width:20px;height:20px;margin-right:10px;background-color:' + color + '"></div>' + data[i].cat + '</div><br/>';
                 }
