@@ -1,0 +1,31 @@
+<polymer-element name="pikaday-element">
+    <template>
+        <link rel="stylesheet" href="https://rawgit.com/dbushell/Pikaday/master/css/pikaday.css">
+        <input type="text" id="datepicker"><core-icon-button icon="today" on-click="{{openCalendar}}"></core-icon-button>
+
+        <div id="container" style="display:none; width:260px"></div>
+    </template>
+    <script src="https://rawgit.com/dbushell/Pikaday/master/pikaday.js"></script>
+    <script>
+        Polymer({
+            ready: function() {
+                var me = this;
+                var picker = new Pikaday({
+                    // targets the #datepicker id within the shadow DOM.
+                    field: this.$.datepicker,
+                    // targets the #container id within the shadow DOM.
+                    container: this.$.container,
+                    // automatically show the datepicker on-load.
+                    // note: when set to true, it flashes for a brief moment and then hides
+                    bound: false,
+                    onSelect: function() {
+                        me.$.container.style.display = 'none';
+                    }
+                });
+            },
+            openCalendar: function() {
+                this.$.container.style.display = 'block';
+            }
+        });
+    </script>
+</polymer-element>

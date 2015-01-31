@@ -1,0 +1,62 @@
+<polymer-element name="list-categories">
+    <style>
+        html /deep/ paper-dropdown-menu {
+            box-sizing: border-box;
+            width: 170px;
+        }
+        html /deep/ core-menu {
+            box-sizing: border-box;
+            width: 170px;
+        }
+        paper-item {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        html /deep/ core-collapse {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        html /deep/ core-overlay {
+            border: 1px solid #ccc;
+            padding: 8px;
+            background: #fff;
+        }
+        .constrained-height {
+            height: 150px;
+        }
+        .colored {
+            color: #0f9d58;
+        }
+        .dropdown.colored::shadow #ripple,
+        .dropdown.colored::shadow #background {
+            border: 1px solid #0f9d58;
+            background-color: #b7e1cd;
+        }
+
+    </style>
+    <template>
+        <core-ajax auto
+                   url="http://www.adaldosso.com/quantospendi/srv/categorie.php"
+                   handleAs="json"
+                   response="{{response}}">
+        </core-ajax>
+
+        <paper-dropdown-menu label="Category" selected="{{selected}}">
+            <paper-dropdown class="dropdown">
+                <core-menu class="menu">
+                    <template repeat="{{item in items}}">
+                        <paper-item>{{item.descrizione}}</paper-item>
+                    </template>
+                </core-menu>
+            </paper-dropdown>
+        </paper-dropdown-menu>
+    </template>
+    <script>
+        Polymer({
+            responseChanged: function() {
+                this.items = this.response.rows;
+            }
+        });
+    </script>
+</polymer-element>

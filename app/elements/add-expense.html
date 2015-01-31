@@ -1,0 +1,70 @@
+<polymer-element name="add-expense">
+    <style>
+        html /deep/ paper-action-dialog {
+            width: 600px;
+        }
+        html /deep/ paper-dialog paper-button {
+            font-weight: bold;
+        }
+        html /deep/ paper-button[autofocus] {
+            color: #4285f4;
+        }
+
+    </style>
+
+    <template>
+
+        <style>
+            input.date {border: 1px solid #DDDDDD; background-color: #EEEEEE; color:#555555; min-width: 200px; padding: 8px 10px; margin: 10px; border-radius: 4px; }
+            input.date:hover { cursor:pointer; border: 1px solid #44B4E4; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6); }
+        </style>
+
+        <core-ajax id="addExpense" url="http://www.adaldosso.com/quantospendi/srv/spesa-add-demo.php" handleAs="json" response="{{response}}"></core-ajax>
+
+        <core-icon-button icon="add" on-click="{{addExpense}}"></core-icon-button>
+
+        <paper-action-dialog heading="Add expense" id="dialog">
+            <p>
+                <paper-input-decorator label="Date" floatingLabel error="input is required!" autoValidate style="width: 200px">
+                    <input is="core-input">
+                </paper-input-decorator>
+
+                <!--<input id="trigger" value="{{selectedDate}}"
+                       on-click="{{$.datePicker.toggle}}"
+                       readonly class="date" />
+                <polymer-date-picker
+                        id="datePicker"
+                        selectedDate="{{selectedDate}}"
+                        relatedTarget="{{$.trigger}}"
+                        opened="false">
+                </polymer-date-picker>-->
+
+                <pikaday-element icon="settings"></pikaday-element>
+
+                <paper-input-decorator label="Amount" floatingLabel error="input is required!" autoValidate style="width: 200px">
+                    <input is="core-input">
+                </paper-input-decorator>
+                &euro;
+
+                <list-categories></list-categories>
+
+                <paper-input-decorator label="Note" floatingLabel error="input is required!" autoValidate>
+                    <input is="core-input">
+                </paper-input-decorator>
+            </p>
+            <paper-button affirmative autofocus on-click="{{addExpenseConfirm}}">Ok</paper-button>
+            <paper-button dismissive>Cancel</paper-button>
+        </paper-action-dialog>
+
+    </template>
+    <script>
+        Polymer({
+            addExpense: function() {
+                this.$.dialog.toggle();
+            },
+            addExpenseConfirm: function() {
+                this.$.addExpense.go();
+            }
+        });
+    </script>
+</polymer-element>
